@@ -1,4 +1,4 @@
-﻿#define HISTORY
+#define HISTORY
 
 using FlaUI.Core.Input;
 using FlaUI.Core.Shapes;
@@ -116,6 +116,18 @@ namespace UIAutomationTest
                         frow1.CreateCell(0).SetCellValue(count);                        
                         frow1.CreateCell(4).SetCellValue(tempstr);
                         frow1.CreateCell(5).SetCellValue(text.Length.ToString());
+
+                        //防Block
+                        Random rd = new Random();
+                        int Sleep_Time = (int)(rd.Next(5, 11) * 30 * 1000);                     
+                        Thread.Sleep(Sleep_Time);
+
+                        //实时保存
+                        using (FileStream fs = new FileStream(saveFileName, FileMode.Create, FileAccess.Write))
+                        {
+                            workBook.Write(fs);  //写入文件
+                            workBook.Close();  //关闭
+                        }
 
                         answindow.Focus();
                         ansBox.Enter(ans1);
