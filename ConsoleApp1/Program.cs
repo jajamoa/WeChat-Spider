@@ -18,9 +18,9 @@ namespace UIAutomationTest
         static void Main(string[] args)
         {
             //var app = FlaUI.Core.Application.Launch("notepad.exe");
-            var app = FlaUI.Core.Application.Attach(11004);
-            var pad = FlaUI.Core.Application.Attach(3128);
-            var ans = FlaUI.Core.Application.Attach(8840);
+            var app = FlaUI.Core.Application.Attach(16472);
+            var ans = FlaUI.Core.Application.Attach(15244);
+            var pad = FlaUI.Core.Application.Attach(18652);
             int endcount = 0;
             string prestr="";
             string ans1="";
@@ -68,8 +68,13 @@ namespace UIAutomationTest
                     mouseX = newwindow.Properties.BoundingRectangle.Value.Left + 10;
                     mouseY = newwindow.Properties.BoundingRectangle.Value.Top + 10;
                     Mouse.Position = new Point(mouseX, mouseY);
-                    Mouse.LeftClick();
-                    Thread.Sleep(1500);
+                    //防Block
+                    Random rd = new Random();
+                    int Sleep_Time = (int)(rd.Next(3, 6) * 30 * 1000);
+                    Thread.Sleep(Sleep_Time);
+
+                    Mouse.LeftClick();                
+                    
                     Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_A);
                     Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_C);
                     padwindow.Focus();
@@ -118,15 +123,15 @@ namespace UIAutomationTest
                         frow1.CreateCell(5).SetCellValue(text.Length.ToString());
 
                         //防Block
-                        Random rd = new Random();
-                        int Sleep_Time = (int)(rd.Next(5, 11) * 30 * 1000);                     
+                        rd = new Random();
+                        Sleep_Time = (int)(rd.Next(5, 11) * 30 * 1000);                     
                         Thread.Sleep(Sleep_Time);
 
                         //实时保存
                         using (FileStream fs = new FileStream(saveFileName, FileMode.Create, FileAccess.Write))
                         {
                             workBook.Write(fs);  //写入文件
-                            workBook.Close();  //关闭
+                            //workBook.Close();  //关闭
                         }
 
                         answindow.Focus();
@@ -144,15 +149,26 @@ namespace UIAutomationTest
                         mouseY = window.Properties.BoundingRectangle.Value.Top + 50;
                         Mouse.Position = new Point(mouseX, mouseY);              
                         Mouse.Click(MouseButton.Left);
-                        Thread.Sleep(1500);
+
+                        //防Block
+                        rd = new Random();
+                        Sleep_Time = (int)(rd.Next(3, 6) * 30 * 1000);
+                        Thread.Sleep(Sleep_Time);
+
                         scnum = -0.99;
                     #endif
+
                     mouseX = window.Properties.BoundingRectangle.Value.Left + 200;
                     mouseY = window.Properties.BoundingRectangle.Value.Top + 200;
                     Mouse.Position = new Point(mouseX, mouseY);
                     if (text.LastIndexOf("阅读") > 0) Mouse.Scroll(scnum);
                     else Mouse.Scroll(-0.05);
                     Thread.Sleep(700);
+                    //防Block
+                    rd = new Random();
+                    Sleep_Time = (int)(rd.Next(3, 6) * 30 * 1000);
+                    Thread.Sleep(Sleep_Time);
+
                     Mouse.Click(MouseButton.Left);
                     if (text.LastIndexOf("阅读") <= 0) Mouse.Click(MouseButton.Left);
                 }
